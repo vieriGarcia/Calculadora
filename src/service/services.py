@@ -19,7 +19,7 @@ def leer_punto() :
    return json.dumps(calculadora.leer_punto())
 
 def limpiar_memoria() :
-        return json.dumps(calculadora.limpiar_memoria())
+        return json.dumps(calculadora.limpiar_memoria()), 200
 
 def leer_operador( 
         operador: str

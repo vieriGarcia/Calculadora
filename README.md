@@ -29,3 +29,8 @@ Proyecto de ejemplo para hacer pruebas unitarias y de desarrollador
 # Ejecutar proyecto
  cd src/entrypoint
  python flask_app.py
+
+# Ejecutar Tests
+ pytest tests/unit/model_tests.py
+ pytest tests/unit/service_tests.py
+ behave tests/feature/

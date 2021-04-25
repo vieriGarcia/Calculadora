@@ -5,8 +5,10 @@ import json
 def mostrar_teclado() :
    return json.dumps(calculadora.mostrar_teclado()), 200
 
+
 def leer_digito( 
-        digit: int
+        digit: int,
+
 ) :
    try:
            validate({"digito":digit})

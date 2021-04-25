@@ -27,10 +27,13 @@ Proyecto de ejemplo para hacer pruebas unitarias y de desarrollador
  python setup.py develop
 
 # Ejecutar proyecto
- cd src/entrypoint
+ cd calculadora/src/entrypoint
  python flask_app.py
 
 # Ejecutar Tests
- pytest tests/unit/model_tests.py
- pytest tests/unit/service_tests.py
- behave tests/feature/
+ pytest calculadora/tests/unit/test_model.py
+ pytest calculadora/tests/unit/test_service.py
+ behave calculadora/tests/feature/
+
+# Reporte de pruebas
+  pytest --cov-config=.coveragerc --cov=src calculadora/tests/ --cov-report xml

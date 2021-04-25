@@ -1,0 +1,7 @@
+[run]
+omit = [tests/unit/test_model.py]
+[report]
+fail_under = 80
+show_missing = True
+[xml]
+output=coverage.xml

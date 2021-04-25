@@ -1,15 +1,12 @@
 from __future__ import annotations
 
+import abc
 from cerberus import Validator
+from src.domain.abstractions import AbstractMemoria, AbstractTeclado
 
 
-class Memoria:
-    def __init__(self):
-        self.numero_actual='0'
-        self.numero_anterior='0'
-        self.operando_1=0
-        self.operando_2=0
-        self.operador=''
+
+class Memoria(AbstractMemoria):
 
     def get_pantalla(self):
         return {"pantalla":self.numero_actual}
@@ -20,19 +17,6 @@ class Memoria:
         self.operando_1=0
         self.operando_2=0
         self.operador=''
-
-    def set_numero_actual(self, numero):
-        self.numero_anterior = self.numero_actual
-        self.numero_actual = numero
-    
-    def set_operando_1(self,operando_1):
-        self.operando_1= operando_1
-    
-    def set_operando_2(self,operando_2):
-        self.operando_2= operando_2
-    
-    def set_operador(self,operador):
-        self.operador= operador
     
     def ejecutar_operacion(self):
          self.operando_2=float(self.numero_actual)
@@ -44,11 +28,7 @@ class Memoria:
          self.numero_anterior='0'
          return {"pantalla":eval(expresion)}
 
-class Teclado:
-    def __init__(self):
-        self.digitos = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
-        self.operadores = ['+', '-', 'x', '/']
-        self.especiales = ['C', 'O', '.', '=']
+class Teclado(AbstractTeclado):
 
     def get_teclas(self):
         teclas = dict()
@@ -58,7 +38,7 @@ class Teclado:
                   }
         return teclas
 
-    def leer_digito(self, digito, memoria: Memoria):
+    def leer_digito(self, digito, memoria: AbstractMemoria):
         # Escribir digito en memoria
         if memoria.numero_actual == '0' :
             memoria.set_numero_actual(str(digito))
@@ -67,7 +47,7 @@ class Teclado:
             memoria.set_numero_actual(str(numero))
         return  memoria.get_pantalla()
     
-    def leer_punto(self, memoria: Memoria):
+    def leer_punto(self, memoria: AbstractMemoria):
         # Escribir punto en memoria
         if memoria.numero_actual == '0' :
             memoria.set_numero_actual('0.')
@@ -76,7 +56,7 @@ class Teclado:
             memoria.set_numero_actual(str(numero))
         return  memoria.get_pantalla()
     
-    def leer_operador(self, operador, memoria: Memoria):
+    def leer_operador(self, operador, memoria: AbstractMemoria):
         # Escribir operador en memoria
         if memoria.numero_actual == '0' :
             if operador == '-':
@@ -93,9 +73,9 @@ class Teclado:
         return  memoria.get_pantalla()
 
 class Calculadora:
-    def __init__(self):
-        self.teclado = Teclado()
-        self.memoria = Memoria()
+    def __init__(self, teclado: AbstractTeclado, memoria: AbstractMemoria):
+        self.teclado = teclado
+        self.memoria = memoria
 
     def mostrar_teclado(self):
         return self.teclado.get_teclas()
@@ -117,7 +97,7 @@ class Calculadora:
         return self.memoria.ejecutar_operacion()
         
 
-calculadora = Calculadora()
+calculadora = Calculadora(Teclado(),Memoria())
 
 
 def get_error_message(errors):

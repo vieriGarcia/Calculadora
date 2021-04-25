@@ -1,6 +1,5 @@
 import pytest
 from src.domain.model import validate, InvalidInput
-from src.domain.abstractions import AbstractMemoria
 
 @pytest.mark.parametrize(
     ["inp", "expected"],
@@ -11,9 +10,10 @@ def test_memoria_set_numero_actual(memoria,inp,expected):
     assert memoria.numero_actual==expected
 
 
+
 @pytest.mark.parametrize(
     ["inp", "expected"],
-    [(1,1),(1.34,1.34)],
+    [(6,6),(1.34,1.34)],
 )
 def test_memoria_set_operando_1(memoria,inp,expected):
     memoria.set_operando_1(inp)
@@ -72,9 +72,15 @@ def test_memoria_ejecutar_operacion(memoria,inp,expected):
     assert memoria.operador == ''
 
 
-class NotImplementedMemoria(AbstractMemoria):
-    pass
+def test_memoria_sin_implementar_ejecutar_operacion(memoria_sin_implementar):
+    with pytest.raises(NotImplementedError):
+        print(memoria_sin_implementar.ejecutar_operacion())
 
-def test_memoria_sin_implementar():
-    with pytest.raises(TypeError, match='Not implemented concrete class'):
-        print(NotImplementedMemoria().ejecutar_operacion())
+
+def test_memoria_sin_implementar_get_pantalla(memoria_sin_implementar):
+    with pytest.raises(NotImplementedError):
+        print(memoria_sin_implementar.get_pantalla())
+
+def test_memoria_sin_implementar_clean_memoria(memoria_sin_implementar):
+    with pytest.raises(NotImplementedError):
+        print(memoria_sin_implementar.clean_memoria())
